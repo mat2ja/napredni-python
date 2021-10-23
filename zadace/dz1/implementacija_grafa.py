@@ -60,3 +60,5 @@ class DFSCvor (Cvor):
     otkriven: int = 0
     zavrsen: int = 0
 
+
+# Za prvu vježbu riješiti zadatke 1, 2, 3 i 5 (PDF "grafovi", zadaci su na kraju).

@@ -16,21 +16,6 @@ def bfs(graf: dict[Cvor, set[Cvor]], polazni_cvor: Cvor) -> None:
         u.boja = Boja.Crna
 
 
-def ispisi_stablo(graf, polazni_cvor):
-    ispisano = set()
-
-    def bfs_stablo(cvor, dubina=0):
-        nonlocal ispisano
-        print(' ' * dubina, cvor.naziv)
-        # init ispisano if empty, otherwise use ispisano
-        ispisano |= {cvor}
-        for c in graf[cvor]:
-            if c not in ispisano and c.prethodnik == cvor:
-                bfs_stablo(c, dubina + 4)
-
-    bfs_stablo(polazni_cvor)
-
-
 def test_bfs():
     s = BFSCvor('s')
     r = BFSCvor('r')
@@ -60,4 +45,38 @@ def test_bfs():
     ispisi_stablo(graf, s)
 
 
+def ispisi_stablo(graf, polazni_cvor):
+    ispisano = set()
+
+    def bfs_stablo(cvor, dubina=0):
+        nonlocal ispisano
+        print(' ' * dubina, cvor.naziv)
+        # init ispisano if empty, otherwise use ispisano
+        ispisano |= {cvor}
+        for c in graf[cvor]:
+            if c not in ispisano and c.prethodnik == cvor:
+                bfs_stablo(c, dubina + 4)
+
+    bfs_stablo(polazni_cvor)
+
+
 test_bfs()
+
+'''
+(r) udaljenost : 1
+(v) udaljenost : 2
+(s) udaljenost : 0
+(w) udaljenost : 1
+(t) udaljenost : 2
+(x) udaljenost : 2
+(u) udaljenost : 3
+(y) udaljenost : 3
+ s
+     w
+         t
+             u
+         x
+             y
+     r
+         v
+'''
