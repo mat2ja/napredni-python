@@ -13,8 +13,7 @@ class Boja(Enum):
 
 @dataclass
 class Cvor:
-    # ovo je neophodno da bi objekt tipa Cvor mogao biti kljuc
-    # rjecnika
+    # ovo je neophodno da bi objekt tipa Cvor mogao biti kljuc rjecnika
     def __hash__(self):
         return hash(self.__naziv)
 
@@ -69,4 +68,6 @@ usmjereni - ima smjer
 ciklicki - nema pocetak i kraj
 neciklicki - ima pocetak i kraj
 tezinski - svaka veza ima vrijednost
+
+Čvrsto povezana komponenta usmjerenog grafa G = (V, E) je najveći podskup čvorova C ⊆ V takav da se za svaki par čvorova u i v u C može od u doći do v i obratno.
 '''

@@ -59,24 +59,12 @@ def test_sort():
         v7: {v6}
     }
 
-    u = DFSCvor('u')
-    v = DFSCvor('v')
-    w = DFSCvor('w')
-    x = DFSCvor('x')
-    y = DFSCvor('y')
-    z = DFSCvor('z')
-
-    graf: dict[DFSCvor, set[DFSCvor]] = {
-        u: {v, x},
-        v: {y},
-        w: {y, z},
-        x: {v},
-        y: {x},
-        z: {z},
-    }
-
     r = dfs2(graf)
     print([c.naziv for c in reversed(r)])
 
 
 test_sort()
+
+'''
+Funkcija dfs2 dati će isti rezultat kao i funkcija topologijski_sort.
+'''

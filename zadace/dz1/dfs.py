@@ -3,7 +3,9 @@ from implementacija_grafa import DFSCvor, Boja
 '''
 Pretraživanjem u dubinu za svaki otkriveni čvor odmah pretražujemo njegov idući sljedbenik sve dotle dok ne dođemo ”do kraja”. 
 Nakon toga se algoritam vraća (uzmakom) i kreće s idućim sljedbenikom posljednje otkrivenog čvora, i tako dok ne prođe sve čvorove grafa koji potječu od polaznog čvora. 
+
 Ako nakon ovog postupka ostane neotkrivenih čvorova onda se taj postupak ponovi sa svakim od tih čvorova kao novim polaznim čvorom. 
+
 Iz tog razloga, za razliku od pretraživanja u širinu, pretraživanje u dubinu može proizvesti više stabala pretraživanja, ne samo jedno.
 '''
 
