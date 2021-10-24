@@ -62,28 +62,10 @@ def test_bfs():
     }
 
     optimalni_put = bfs(graf, r, w)
-    print(
-        f'Optimalni put je {optimalni_put["put"]} udaljenosti {optimalni_put["udaljenost"]}')
+    print('Optimalni put:', end=" ")
+    print(*[i.naziv for i in optimalni_put["put"]], sep=" → ")
+
+    print(f'Udaljenost: {optimalni_put["udaljenost"]}')
 
 
 test_bfs()
-
-'''
-(r) udaljenost : 1
-(v) udaljenost : 2
-(s) udaljenost : 0
-(w) udaljenost : 1
-(t) udaljenost : 2
-(x) udaljenost : 2
-(u) udaljenost : 3
-(y) udaljenost : 3
-
- s
-     w
-         t
-             u
-         x
-             y
-     r
-         v
-'''

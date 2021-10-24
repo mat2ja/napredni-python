@@ -1,10 +1,9 @@
 from implementacija_grafa import Cvor,  Boja
+from typing import Union
 
 
 '''
-Čvrsto pretraživanje komponente
-
-Čvrsto povezana komponenta usmjerenog grafa G = (V, E) je najveći podskup čvorova C ⊆ V takav da se za svaki par čvorova u i v u C može od u doći do v i obratno.
+3. Upotrebom implementacije grafa iz ovog dijela napišite program koji će u usmjerenom cikličkom grafu pronaći najdulji ciklus.
 '''
 
 
@@ -17,7 +16,6 @@ def cpk(graf: dict[Cvor, list[Cvor]]) -> list[set[Cvor]]:
         else:
             for cvor in graf[trenutni_cvor]:
                 if cvor not in put:
-                    # r = ciklus(cvor, set.union(put, {cvor}))
                     r = ciklus(cvor, put | {cvor})
                     if r:
                         return r
@@ -49,6 +47,13 @@ def cpk(graf: dict[Cvor, list[Cvor]]) -> list[set[Cvor]]:
     return komponente
 
 
+def najduzi_ciklus(ciklusi: list[set[Cvor]]) -> Union[set[Cvor], None]:
+    naj_ciklus = max(ciklusi, key=len)
+    if (len(naj_ciklus) > 1):
+        return naj_ciklus
+    return None
+
+
 def test_cpk():
     a = Cvor('a')
     b = Cvor('b')
@@ -62,23 +67,21 @@ def test_cpk():
     graf: dict[Cvor, list[Cvor]] = {
         a: [b],
         b: [e, c],
+        # b: [],
         c: [f, d],
         d: [a],
         e: [c],
         f: [g],
         g: [h, f],
+        # g: [],
         h: [g],
     }
 
-    # print(cpk(graf))
     ciklusi = cpk(graf)
-    for i, c in enumerate(ciklusi, start=1):
-        print(f'{i}. ciklus:', end=" ")
-        print(*[cvor for cvor in c], sep=" → ")
+
+    print('Najduzi ciklus:', najduzi_ciklus(ciklusi))
 
 
 test_cpk()
 
-'''
-[{c, d, e, a, b}, {g, h, f}]
-'''
+

@@ -1,8 +1,7 @@
 from implementacija_grafa import Cvor,  Boja
 
 '''
-2. Upotrebom implementacije grafa iz ovog dijela napišite program koji će utvrditi
-postoje li ciklusi u zadanom usmjerenom grafu.
+2. Upotrebom implementacije grafa iz ovog dijela napišite program koji će utvrditi postoje li ciklusi u zadanom usmjerenom grafu.
 '''
 
 
@@ -52,13 +51,7 @@ def test_cpk():
         h: [g],
     }
 
-    print(ima_ciklus(graf))
+    print('Ima ciklus:', ima_ciklus(graf))
 
 
 test_cpk()
-
-'''
-[{c, d, e, a, b}, {g, h, f}]
-'''
-
-# https://www.geeksforgeeks.org/detect-cycle-in-an-undirected-graph-using-bfs/?ref=rp
