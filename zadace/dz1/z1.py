@@ -1,13 +1,5 @@
-from typing import Union
 from implementacija_grafa import Cvor, BFSCvor, Boja, Queue
-
-'''
-Za graf G=(V, E) i čvor s koji ćemo zvati izvorni čvor, pretraživanje u širinu sistematično ispituje lukove grafa G da bi dobio sve čvorove do kojih se može doći iz s i odredio najkraći put do svakog od tih čvorova.
-
-Ovaj algoritam radi za usmjerene i neusmjerene grafove.
-
-Kao kod stabla, pretraživanje u širinu radi tako da pronađe sve čvorove na udaljenosti d prije nego što pronađe čvorove na udaljenosti d+1.
-'''
+from typing import Union
 
 '''
 1. Modificirajte funkciju bfs tako da u težinskom usmjerenom grafu pronađe optimalni put.
@@ -15,30 +7,34 @@ Jesu li putevi koje takva funkcija pronalazi uvijek optimalni?
 '''
 
 
-def bfs(graf: dict[Cvor, set[Cvor]], polazni_cvor: Cvor, odredisni_cvor: Cvor) -> list[Cvor]:
+def bfs(graf: dict[Cvor, set[Cvor]], polazni_cvor: Cvor, odredisni_cvor: Cvor) -> Union[dict, None]:
     polazni_cvor.udaljenost = 0
-
-    optimalni_put: list[Cvor] = []
-    put: int = 0
 
     red: Queue[Cvor] = Queue()
     red.put(polazni_cvor)
+
     while not red.empty():
-        u = red.get()  # removes and returns first elem in queue
+        u = red.get()
         for cvor in graf[u]:
             if cvor.boja == Boja.Bijela:
                 cvor.boja = Boja.Siva
                 cvor.udaljenost = u.udaljenost + 1
                 cvor.prethodnik = u
                 red.put(cvor)
+
                 if (cvor == odredisni_cvor):
-                    optimalni_put: list[(Cvor)] = []
+                    put: list[Cvor] = []
                     trenutni_cvor = cvor
                     while trenutni_cvor.prethodnik:
-                        optimalni_put.append(trenutni_cvor)
+                        put.append(trenutni_cvor)
                         trenutni_cvor = trenutni_cvor.prethodnik
-                    optimalni_put.append(trenutni_cvor)
-                    return optimalni_put
+                    put.append(trenutni_cvor)
+                    put.reverse()
+
+                    return {
+                        'put': put,
+                        'udaljenost': odredisni_cvor.udaljenost
+                    }
 
         u.boja = Boja.Crna
     return None
@@ -65,23 +61,9 @@ def test_bfs():
         y: {x, u},
     }
 
-    optimalni_put = bfs(graf, s, x)
-    print(optimalni_put)
-
-
-def ispisi_stablo(graf, polazni_cvor):
-    ispisano = set()
-
-    def bfs_stablo(cvor, dubina=0):
-        nonlocal ispisano
-        print(' ' * dubina, cvor.naziv)
-        # init ispisano if empty, otherwise use ispisano
-        ispisano |= {cvor}
-        for c in graf[cvor]:
-            if c not in ispisano and c.prethodnik == cvor:
-                bfs_stablo(c, dubina + 4)
-
-    bfs_stablo(polazni_cvor)
+    optimalni_put = bfs(graf, r, w)
+    print(
+        f'Optimalni put je {optimalni_put["put"]} udaljenosti {optimalni_put["udaljenost"]}')
 
 
 test_bfs()
