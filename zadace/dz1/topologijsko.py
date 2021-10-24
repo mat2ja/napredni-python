@@ -5,9 +5,10 @@ from implementacija_grafa import Cvor, Boja
 def topologijski_sort(graf: dict[Cvor, set[Cvor]]) -> list[str]:
     rezultat: list[str] = []
     while graf != {}:
-        cvor = set(graf) - reduce(lambda x, y: x | y, graf. values())
+        # uzima cvor koji nema ulaz
+        cvor = set(graf) - reduce(lambda x, y: x | y, graf.values())
         pocetni = cvor.pop()
-        rezultat.append(pocetni .naziv)
+        rezultat.append(pocetni.naziv)
         del graf[pocetni]
     return rezultat
 

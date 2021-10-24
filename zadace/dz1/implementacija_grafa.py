@@ -62,3 +62,11 @@ class DFSCvor (Cvor):
 
 
 # Za prvu vježbu riješiti zadatke 1, 2, 3 i 5 (PDF "grafovi", zadaci su na kraju).
+
+'''
+neusmjereni - nema smjer
+usmjereni - ima smjer
+ciklicki - nema pocetak i kraj
+neciklicki - ima pocetak i kraj
+tezinski - svaka veza ima vrijednost
+'''
