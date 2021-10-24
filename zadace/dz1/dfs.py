@@ -1,6 +1,11 @@
-# type: ignore
+from implementacija_grafa import DFSCvor, Boja
 
-from implementacija_grafa import Cvor, DFSCvor, Boja
+'''
+Pretraživanjem u dubinu za svaki otkriveni čvor odmah pretražujemo njegov idući sljedbenik sve dotle dok ne dođemo ”do kraja”. 
+Nakon toga se algoritam vraća (uzmakom) i kreće s idućim sljedbenikom posljednje otkrivenog čvora, i tako dok ne prođe sve čvorove grafa koji potječu od polaznog čvora. 
+Ako nakon ovog postupka ostane neotkrivenih čvorova onda se taj postupak ponovi sa svakim od tih čvorova kao novim polaznim čvorom. 
+Iz tog razloga, za razliku od pretraživanja u širinu, pretraživanje u dubinu može proizvesti više stabala pretraživanja, ne samo jedno.
+'''
 
 
 def dfs(graf: dict[DFSCvor, set[DFSCvor]]) -> None:
@@ -50,6 +55,7 @@ def test_dfs():
 
     for cvor in graf:
         print(cvor)
+    print()
 
     print('Korijen :', u)
     ispisi_stablo(graf, u)
@@ -82,6 +88,7 @@ test_dfs()
 (x) otkriven / zavrsen : 4/5
 (y) otkriven / zavrsen : 3/6
 (z) otkriven / zavrsen : 10/11
+
 Korijen : (u) otkriven / zavrsen : 1/8
  u
      v

@@ -1,5 +1,13 @@
 from implementacija_grafa import Cvor, BFSCvor, Boja, Queue
 
+'''
+Za graf G=(V, E) i čvor s koji ćemo zvati izvorni čvor, pretraživanje u širinu sistematično ispituje lukove grafa G da bi dobio sve čvorove do kojih se može doći iz s i odredio najkraći put do svakog od tih čvorova.
+
+Ovaj algoritam radi za usmjerene i neusmjerene grafove.
+
+Kao kod stabla, pretraživanje u širinu radi tako da pronađe sve čvorove na udaljenosti d prije nego što pronađe čvorove na udaljenosti d+1.
+'''
+
 
 def bfs(graf: dict[Cvor, set[Cvor]], polazni_cvor: Cvor) -> None:
     polazni_cvor.udaljenost = 0
@@ -41,6 +49,7 @@ def test_bfs():
 
     for cvor in graf:
         print(cvor)
+    print()
 
     ispisi_stablo(graf, s)
 
@@ -71,6 +80,7 @@ test_bfs()
 (x) udaljenost : 2
 (u) udaljenost : 3
 (y) udaljenost : 3
+
  s
      w
          t

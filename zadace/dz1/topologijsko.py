@@ -1,6 +1,14 @@
 from functools import reduce
 from implementacija_grafa import Cvor, Boja
 
+'''
+Topologijsko sortiranje je uređenje čvorova usmjerenog acikličkog grafa takvo da ako postoji put od čvora v^i do čvora v^j onda se v^j nalazi iza v^i u tom redoslijedu.
+
+Ovaj algoritam možemo implementirati tako da iterativno izdvajamo čvorove koji nemaju ulaznih lukova sve dotle dok nismo izdvojili sve takve čvorove.
+
+Algoritam radi samo s grafovima koji nemaju cikluse.
+'''
+
 
 def topologijski_sort(graf: dict[Cvor, set[Cvor]]) -> list[str]:
     rezultat: list[str] = []
@@ -37,3 +45,7 @@ def test_sort():
 
 
 test_sort()
+
+'''
+['v1', 'v2', 'v5', 'v4', 'v3', 'v7', 'v6']
+'''
