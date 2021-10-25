@@ -1,5 +1,5 @@
 from functools import reduce
-from implementacija_grafa import Cvor, Boja
+from implementacija_grafa import Cvor
 
 '''
 Topologijsko sortiranje je uređenje čvorova usmjerenog acikličkog grafa takvo da ako postoji put od čvora v^i do čvora v^j onda se v^j nalazi iza v^i u tom redoslijedu.

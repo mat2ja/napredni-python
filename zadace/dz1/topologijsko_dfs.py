@@ -26,7 +26,7 @@ def dfs2(graf: dict[DFSCvor, set[DFSCvor]]) -> list[Cvor]:
 
         polazni_cvor.boja = Boja.Crna
         vrijeme += 1
-        polazni_cvor. zavrsen = vrijeme
+        polazni_cvor.zavrsen = vrijeme
 
         # dodaj zacrnjeni cvor u listu
         lista_cvorova += [polazni_cvor]
