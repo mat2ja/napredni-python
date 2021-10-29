@@ -30,7 +30,6 @@ def bfs(graf: dict[Cvor, set[Cvor]], polazni_cvor: Cvor, odredisni_cvor: Cvor) -
     while not red.empty():
         u = red.get()
         for cvor, _ in graf[u]:
-            print('cvor', cvor.naziv)
             if cvor.boja == Boja.Bijela:
                 cvor.boja = Boja.Siva
                 cvor.udaljenost = u.udaljenost + 1
@@ -69,7 +68,7 @@ def test_bfs():
     y = BFSCvor('y')
     z = BFSCvor('z')
 
-    graf: dict[BFSCvor, set[BFSCvor]] = {
+    graf: dict[BFSCvor, set[(BFSCvor, int)]] = {
         u: {(v, 32), (x, 74)},
         v: {(y, 42)},
         w: {(y, 57), (z, 10)},

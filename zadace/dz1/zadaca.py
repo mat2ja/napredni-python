@@ -64,7 +64,7 @@ def test_bfs():
         y: {x, u},
     }
 
-    optimalni_put = bfs(graf, r, w)
+    optimalni_put = bfs(graf, y, v)
     print('Optimalni put:', end=" ")
     print(*[i.naziv for i in optimalni_put["put"]], sep=" → ")
 
