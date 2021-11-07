@@ -17,25 +17,6 @@ i vremenski interval (1:00, 1:20), optimalni izbor aktivnosti je skup {(’A’,
 '''
 
 
-lst = [[-4, 1], [1, 5], [2, 10], [3, 5], [1, 3], [3, 8], [8, 12], [5, 11]]
-lst = [[110, 120], [115, 119], [112, 114], [14, 155]]
-
-
-def longest(lst):
-    mx = (0, [])
-    for i in range(1, len(lst) - 1):    # test for all following and acceptable elements
-        if lst[i][0] == lst[0][1]:
-            add = longest(lst[i:])
-            if add[0] > mx[0]:         # keep "longest" chain
-                mx = add
-    #print(lst, mx)
-    return (lst[0][1] - lst[0][0] + mx[0], [lst[0]] + mx[1])
-
-
-# chain elements must be in increasing order
-# print(longest(sorted(lst)))
-
-
 def toMinutes(interval):
     sati, minute = interval
     return sati * 60 + minute
@@ -53,30 +34,54 @@ def aktivnostiIntervala(aktivnosti, interval):
     return akt_u_intervalu
 
 
-def optimal(aktivnosti, interval, rez=[]):
-    aktivnosti = aktivnostiIntervala(aktivnosti, interval)
+def leftoverTime(timeline, interval):
     vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
+    for _, poc, kraj in timeline:
+        vrijeme -= (toMinutes(kraj) - toMinutes(poc))
+    return vrijeme
 
+
+def by_duration(aktivnost):
+    _, poc, kraj = aktivnost
+    trajanje = toMinutes(kraj) - toMinutes(poc)
+    return trajanje
+
+
+def optimal(aktivnosti, interval, final=[]):
+    aktivnosti = aktivnostiIntervala(aktivnosti, interval)
+    # aktivnosti.sort(key=by_duration, reverse=True)
+
+    rezultati = []
     for i in range(0, len(aktivnosti)):
-        _, poc, kraj = aktivnost = aktivnosti[i]
-        mpoc = toMinutes(poc)
-        mkraj = toMinutes(kraj)
-        novo_vrijeme = vrijeme - (mkraj - mpoc)
-        preklapanje = False
-        for r in rez:
-            _, rezpoc, rezkraj = r
-            rpoc = toMinutes(rezpoc)
-            rkraj = toMinutes(rezkraj)
-            if (set(range(rpoc, rkraj)).intersection(range(mpoc, mkraj))):
-                preklapanje = True
-                break
+        rez = []
+        vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
+        while vrijeme > 0:
+            for j in range(i, len(aktivnosti)):
+                preklapanje = False
+                _, poc, kraj = aktivnost = aktivnosti[j]
+                npoc = toMinutes(poc)
+                nkraj = toMinutes(kraj)
+                vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
+                for r in rez:
+                    rpoc = toMinutes(r[1])
+                    rkraj = toMinutes(r[2])
+                    if (set(range(rpoc, rkraj)).intersection(range(npoc, nkraj))):
+                        preklapanje = True
+                        break
 
-        if novo_vrijeme > 0 and not preklapanje:
-            vrijeme = novo_vrijeme
-            rez.append(aktivnost)
-        else:
+                if not preklapanje:
+                    vrijeme -= (nkraj - npoc)
+                    rez.append(aktivnost)
+
             break
-    return rez
+
+        rezultati.append(rez)
+
+        vise_aktivnosti = len(rez) > len(final)
+        if not final or vise_aktivnosti:
+            final = rez
+
+    return final
 
 
 aktivnosti = [
@@ -86,11 +91,16 @@ aktivnosti = [
     ('R', (1, 4), (1, 55))
 ]
 
-# aktivnosti = [
-#     ('F', (110), (120)),
-#     ('G', (115), (119)),
-#     ('A', (112), (114)),
-#     ('R', (14), (155))
-# ]
+# TODO: sort by size
+aktivnosti2 = [
+    ('F', (1, 10), (1, 20)),
+    ('G', (1, 15), (1, 19)),
+    ('A', (1, 12), (1, 14)),
+    ('R', (1, 4), (1, 55)),
+    ('Z', (2, 20), (2, 24)),
+    ('H', (2, 4), (2, 56)),
+]
 
-print(optimal(aktivnosti, ((1, 0), (1, 20))))
+
+# print(optimal(aktivnosti, ((1, 0), (1, 20))))
+print(optimal(aktivnosti2, ((1, 0), (3, 20))))
