@@ -52,6 +52,10 @@ def calculate_combo_duration(kombinacija):
     return sum(calculate_interval_duration(p) for p in kombinacija)
 
 
+def calculate_combo_value(kombinacija):
+    return sum(p[3] for p in kombinacija)
+
+
 def optimal(aktivnosti, interval):
     kombinacije = []
     for n in range(1, len(aktivnosti) + 1):
@@ -78,3 +82,42 @@ aktivnosti = [
 ]
 
 print(optimal(aktivnosti, ((1, 00), (1, 20))))
+
+
+'''
+Primjenom dinamičkog programiranja riješite zadatak 3 tako da neke aktivnosti
+vrijede više od drugih. Tada bi cilj bio naći kombinaciju kompatibilnih aktivnosti
+koja daje najveću moguću vrijednost. Na primjer, ako aktivnost F vrijedi 18, ak-
+tivnost G vrijedi 2 i aktivnost A vrijedi 10, onda je najbolji odabir samo aktivnost
+F jer je vrijednost tada 18, dok je sa A i G ukupna vrijednost 12.
+'''
+
+
+def optimal_vrij(aktivnosti, interval):
+    kombinacije = []
+    for n in range(1, len(aktivnosti) + 1):
+        kombinacije += [list(p) for p in itertools.combinations(aktivnosti, n)]
+    tocne_komb = [k for k in kombinacije
+                  if has_no_intersections(k) and under_time_limit(k, interval)]
+
+    optimalna_kombinacija = []
+    naj_vrijednost = 0
+    for k in tocne_komb:
+        vrijednost = calculate_combo_value(k)
+        if vrijednost > naj_vrijednost:
+            naj_vrijednost = vrijednost
+            optimalna_kombinacija = k
+        elif vrijednost == naj_vrijednost and len(k) > len(optimalna_kombinacija):
+            optimalna_kombinacija = k
+
+    return optimalna_kombinacija
+
+
+aktivnosti2 = [
+    ('F', (1, 10), (1, 20), 18),
+    ('G', (1, 15), (1, 22), 2),
+    ('A', (1, 12), (1, 14), 15),
+    ('R', (1, 4), (1, 55), 4),
+]
+
+print(optimal_vrij(aktivnosti2, ((1, 00), (1, 20))))
