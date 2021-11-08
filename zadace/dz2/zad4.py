@@ -1,20 +1,13 @@
 '''
-Neka je zadan niz trojki (x, a, b) gdje je x neka aktivnost, a je vremenski početak
-te aktivnosti, a b završetak. Na primjer, (’T’, (2, 13), (2, 17)) znači da aktivnost
-T počinje u 2:13, a završava u 2:17. Dvije aktivnosti su kompatibilne ako se
-ne preklapaju. Napišite program koji će za niz aktivnosti odabrati najveći broj
-kompatibilnih aktivnosti koje se mogu smjestiti u neki zadani vremenski interval
-tako da ostane što manje neispunjenog vremena tog intervala. Na primjer, za niz
-aktivnosti
-
-('F', (1, 10), (1, 20))
-('G', (1, 15), (1, 19))
-('A', (1, 12), (1, 14))
-('R', (1, 4), (1, 55))
-
-i vremenski interval (1:00, 1:20), optimalni izbor aktivnosti je skup {(’A’, (1, 12),
-(1, 14)), (’G’, (1, 15), (1, 19))}
+Primjenom dinamičkog programiranja riješite zadatak 3 tako da neke aktivnosti
+vrijede više od drugih. Tada bi cilj bio naći kombinaciju kompatibilnih aktivnosti
+koja daje najveću moguću vrijednost. Na primjer, ako aktivnost F vrijedi 18, ak-
+tivnost G vrijedi 2 i aktivnost A vrijedi 10, onda je najbolji odabir samo aktivnost
+F jer je vrijednost tada 18, dok je sa A i G ukupna vrijednost 12.
 '''
+
+
+import itertools
 
 
 def toMinutes(interval):
@@ -22,74 +15,64 @@ def toMinutes(interval):
     return sati * 60 + minute
 
 
-def aktivnostiIntervala(aktivnosti, interval):
-    akt_u_intervalu = []
-    minterval = (toMinutes(interval[0]), toMinutes(interval[1]))
-    for aktivnost in aktivnosti:
-        _, poc, kraj = aktivnost
-        mpoc = toMinutes(poc)
-        mkraj = toMinutes(kraj)
-        if mpoc >= minterval[0] and mkraj <= minterval[1]:
-            akt_u_intervalu.append(aktivnost)
-    return akt_u_intervalu
+def convertToRange(interval):
+    return range(toMinutes(interval[1]), toMinutes(interval[2]))
 
 
-def leftoverTime(timeline, interval):
-    vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
-    for _, poc, kraj in timeline:
-        vrijeme -= (toMinutes(kraj) - toMinutes(poc))
-    return vrijeme
+def has_no_intersections(kombinacija):
+    L = len(kombinacija)
+    for i in range(0, L):
+        nrange = convertToRange(kombinacija[i])
+        for j in range(i+1, L):
+            mrange = convertToRange(kombinacija[j])
+            if (set(nrange).intersection(mrange)):
+                return False
+    return True
 
 
-def by_duration(aktivnost):
-    _, poc, kraj = aktivnost
-    trajanje = toMinutes(kraj) - toMinutes(poc)
-    return trajanje
+def under_time_limit(kombinacija, interval):
+    interval_trajanje = toMinutes(interval[1]) - toMinutes(interval[0])
+    total_time = calculate_combo_duration(kombinacija)
+    return total_time <= interval_trajanje
 
 
-def optimal(aktivnosti, interval, final=[]):
-    aktivnosti = aktivnostiIntervala(aktivnosti, interval)
-    aktivnosti.sort(key=by_duration, reverse=True)
+def calculate_interval_duration(interval):
+    return toMinutes(interval[2]) - toMinutes(interval[1])
 
-    rezultati = []
-    for i in range(0, len(aktivnosti)):
-        
-        rez = []
-        vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
-        while vrijeme > 0:
-            for j in range(0, len(aktivnosti)):
-                preklapanje = False
-                _, poc, kraj = aktivnost = aktivnosti[j]
-                npoc = toMinutes(poc)
-                nkraj = toMinutes(kraj)
-                vrijeme = toMinutes(interval[1]) - toMinutes(interval[0])
-                for r in rez:
-                    rpoc = toMinutes(r[1])
-                    rkraj = toMinutes(r[2])
-                    if (set(range(rpoc, rkraj)).intersection(range(npoc, nkraj))):
-                        preklapanje = True
-                        break
 
-                if not preklapanje:
-                    vrijeme -= (nkraj - npoc)
-                    rez.append(aktivnost)
+def calculate_combo_duration(kombinacija):
+    return sum(calculate_interval_duration(p) for p in kombinacija)
 
-            break
 
-        rezultati.append(rez)
+def calculate_combo_value(kombinacija):
+    return sum(p[3] for p in kombinacija)
 
-        vise_aktivnosti = len(rez) > len(final)
-        if not final or vise_aktivnosti:
-            final = rez
 
-    return final
+def optimal(aktivnosti, interval):
+    kombinacije = []
+    for n in range(1, len(aktivnosti) + 1):
+        kombinacije += [list(p) for p in itertools.combinations(aktivnosti, n)]
+    tocne_komb = [k for k in kombinacije
+                  if has_no_intersections(k) and under_time_limit(k, interval)]
+
+    optimalna_kombinacija = []
+    naj_vrijednost = 0
+    for k in tocne_komb:
+        vrijednost = calculate_combo_value(k)
+        if vrijednost > naj_vrijednost:
+            naj_vrijednost = vrijednost
+            optimalna_kombinacija = k
+        elif vrijednost == naj_vrijednost and len(k) > len(optimalna_kombinacija):
+            optimalna_kombinacija = k
+
+    return optimalna_kombinacija
 
 
 aktivnosti = [
-    ('F', (1, 10), (1, 20)),
-    ('G', (1, 15), (1, 19)),
-    ('A', (1, 12), (1, 14)),
-    ('R', (1, 4), (1, 55))
+    ('F', (1, 10), (1, 20), 18),
+    ('G', (1, 15), (1, 22), 2),
+    ('A', (1, 12), (1, 14), 15),
+    ('R', (1, 4), (1, 55), 4),
 ]
 
-print(optimal(aktivnosti, ((1, 0), (1, 20))))
+print(optimal(aktivnosti, ((1, 00), (1, 20))))
