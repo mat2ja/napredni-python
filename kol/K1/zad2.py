@@ -34,15 +34,6 @@ def transformiraj(redovi):
     return transformirano
 
 
-def count_with_vowels2(sifre):
-    counter = 0
-    for sifra in sifre:
-        has_vowel = re.search(r'[aeiou]', sifra)
-        if has_vowel:
-            counter += 1
-    return counter
-
-
 def count_with_vowels(sifre):
     counter = 0
     for sifra in sifre:

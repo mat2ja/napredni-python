@@ -22,7 +22,7 @@ redovi = [red[:-1] for red in f]
 
 
 def naj_pon(redovi):
-    max_repeat = 0
+    max_repeat = 1
     for red in redovi:
         local_repeat = 1
         for i in range(1, len(red)):
