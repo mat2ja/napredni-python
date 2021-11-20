@@ -46,3 +46,5 @@ def count_with_vowels(sifre):
 transformirano = transformiraj(redovi)
 
 print(count_with_vowels(transformirano))
+
+
