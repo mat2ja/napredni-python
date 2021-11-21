@@ -53,5 +53,5 @@ def izracunaj_b(izraz, rez=0):
     return rez
 
 
-b = izracunaj_b(['zbroji', 2, 3, ['zbroji', 1, 2, 3, 4]])
+b = izracunaj_b(['mnozi', 2, 3, ['zbroji', 1, 2, 3, 4]])
 print('b)', b)
