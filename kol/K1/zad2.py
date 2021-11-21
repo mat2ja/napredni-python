@@ -21,8 +21,7 @@ def umanji(char):
     value = ord(char)
     umanjeno = value - 10
     if (umanjeno < ord('a')):
-        razlika = ord('a') - umanjeno
-        umanjeno = (ord('z') + 1) - razlika
+        umanjeno = (ord('z') - ord('a') + 1) + umanjeno
     return chr(umanjeno)
 
 

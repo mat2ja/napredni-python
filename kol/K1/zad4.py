@@ -27,12 +27,14 @@ Dakle, najmanje odstupanje stringa ABCD od stringova u datoteci X je 36.
 f = open(r'files/stringovi.txt', 'r')
 redovi = [red[:-1] for red in f]
 
+zadani_string = 'piramida'
+
 
 def odstupanje_znakova(a, b):
     return abs(ord(a) - ord(b))
 
 
-def odstupanje_reda(red, main_str):
+def suma_odstupanja_reda(red, main_str):
     duljina = len(main_str)
     red = red.ljust(duljina)
     odstupanja = [odstupanje_znakova(main_str[i], red[i])
@@ -41,8 +43,8 @@ def odstupanje_reda(red, main_str):
 
 
 def min_odstupanje_od(main_str):
-    sume_odstupanja = [odstupanje_reda(red, main_str) for red in redovi]
+    sume_odstupanja = [suma_odstupanja_reda(red, main_str) for red in redovi]
     return min(sume_odstupanja)
 
 
-print(min_odstupanje_od('piramida'))
+print(min_odstupanje_od(zadani_string))

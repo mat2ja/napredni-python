@@ -35,25 +35,25 @@ def is_most_frequent(text, fav):
     if fav not in keys:
         return False
 
-    # ako je samo jedan broj i sve su setice
-    if (len(keys) == 1 and fav in keys):
+    # ako je samo jedan broj (sve su setice)
+    if len(keys) == 1:
         return True
 
     max_count = max(values)
     # ako ima samo jedna max value, i ako je bas to freq sestice
-    if (list(values).count(max_count) == 1 and frequencies[fav] == max_count):
+    if list(values).count(max_count) == 1 and frequencies[fav] == max_count:
         return True
 
     return False
 
 
-def find_highest_groups(skupine):
+def find_highest_groups(skupine, n):
     counter = 0
     for skupina in skupine:
-        najvise_sestica = any(is_most_frequent(niz, '6') for niz in skupina)
+        najvise_sestica = any(is_most_frequent(niz, n) for niz in skupina)
         if (najvise_sestica):
             counter += 1
     return counter
 
 
-print(find_highest_groups(skupine))  # 448
+print(find_highest_groups(skupine, '6'))  # 448

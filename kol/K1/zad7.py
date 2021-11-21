@@ -25,7 +25,6 @@ sljedećeg:
 * transformiramo sve decimalne brojeve u rimske (u prethodno opisan oblik)?
 '''
 
-
 f = open(r'files/konverzija.txt', 'r')
 redovi = [red[:-1] for red in f]
 

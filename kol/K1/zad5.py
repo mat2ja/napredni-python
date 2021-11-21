@@ -22,13 +22,14 @@ def mapiraj_intervale(brojevi):
     for broj in brojevi:
         prvi = broj[0]
         duljina = len(broj)
-        start = int(prvi.ljust(duljina, '0'))
-        end = int(prvi.ljust(duljina, '9'))
+        start = prvi.ljust(duljina, '0')
+        end = prvi.ljust(duljina, '9')
         interval = (start, end)
+
         if interval in intervali:
-            intervali[(start, end)] += 1
+            intervali[interval] += 1
         else:
-            intervali[(start, end)] = 1
+            intervali[interval] = 1
 
     return intervali
 

@@ -63,28 +63,28 @@ def shift_right(arg, amount=1):
     return arg[-amount:] + arg[:-amount]
 
 
-def binary2decimal(n_bin):
+def to_decimal(n_bin):
     return int(n_bin, 2)
 
 
-def str2binary(str):
+def to_binary(str):
     # pretvori string redove u array binarnih, i pretvori ga string
-    return ''.join(['0' if ord(ch) % 2 == 0 else '1'
-                    for ch in str])
+    arr_bin = ['0' if ord(ch) % 2 == 0 else '1' for ch in str]
+    return ''.join(arr_bin)
 
 
 def get_all_combinations(str):
     # stvori array kombinacije binarya u stringu
-    return [''.join(shift_right(str, i)) for i in range(len(str))]
+    return [shift_right(str, i) for i in range(len(str))]
 
 
 def get_max_value(redovi):
-    binary_redovi = [str2binary(red) for red in redovi]
+    binary_redovi = [to_binary(red) for red in redovi]
 
     max_num = 0
     for binary_red in binary_redovi:
         combos = get_all_combinations(binary_red)
-        local_max = max([binary2decimal(combo) for combo in combos])
+        local_max = max([to_decimal(combo) for combo in combos])
         max_num = max(max_num, local_max)
 
     return max_num
