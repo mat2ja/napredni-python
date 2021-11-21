@@ -204,6 +204,7 @@ brojevi = {'rimski': 0, 'arapski': 0}
 
 for red in open(r'files/konverzija.txt', 'r'):
     brojevi = transformiraj(red[:-1], brojevi)
+    print(brojevi)
 
 if brojevi['rimski'] < brojevi['arapski']:
     print(brojevi['rimski'])
