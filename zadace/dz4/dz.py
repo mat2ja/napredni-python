@@ -18,9 +18,7 @@ aritmetika = {
 
 
 def izracunaj_a(izraz, rez=0):
-    operacija = izraz[0]
-    lijevo = izraz[1]
-    desno = izraz[2]
+    [operacija, lijevo, desno] = izraz
 
     if isinstance(lijevo, list):
         lijevo = izracunaj_a(lijevo, rez)
@@ -28,10 +26,7 @@ def izracunaj_a(izraz, rez=0):
     if isinstance(desno, list):
         desno = izracunaj_a(desno, rez)
 
-    if not isinstance(lijevo, list) and not isinstance(desno, list):
-        rez = aritmetika[operacija](lijevo, desno)
-
-    return rez
+    return aritmetika[operacija](lijevo, desno)
 
 
 a = izracunaj_a(
