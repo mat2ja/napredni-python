@@ -35,5 +35,5 @@ rezultat = re.match(r4, s)
 print('7)', r4, ':', s, '->', rezultat)
 
 s = 'dana 4.11.2019. odrzana je konferencija'
-rezultat = re. search(r3, s)
+rezultat = re.search(r3, s)
 print('8)', r3, ':', s, '->', rezultat)
